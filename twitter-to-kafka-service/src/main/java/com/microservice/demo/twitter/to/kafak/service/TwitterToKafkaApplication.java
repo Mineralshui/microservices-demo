@@ -1,6 +1,7 @@
 package com.microservice.demo.twitter.to.kafak.service;
 
 import com.microservice.demo.twitter.to.kafak.service.config.TwitterToKafkaServiceConfig;
+import com.microservice.demo.twitter.to.kafak.service.runner.StreamRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -15,8 +16,12 @@ public class TwitterToKafkaApplication implements CommandLineRunner {
 
     private final TwitterToKafkaServiceConfig twitterToKafkaServiceConfig;
 
-    public TwitterToKafkaApplication(TwitterToKafkaServiceConfig twitter){
+    private final StreamRunner streamRunner;
+
+    public TwitterToKafkaApplication(TwitterToKafkaServiceConfig twitter,
+                                     StreamRunner runner){
         this.twitterToKafkaServiceConfig = twitter;
+        this.streamRunner = runner;
     }
 
     public static void main(String[] args) {
@@ -27,5 +32,6 @@ public class TwitterToKafkaApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         LOG.info("Application Starts...");
         LOG.info(Arrays.toString(twitterToKafkaServiceConfig.getTwitterKeyword().toArray(new String[] {})));
+        streamRunner.start();
     }
 }
